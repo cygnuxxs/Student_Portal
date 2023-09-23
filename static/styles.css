@@ -1,0 +1,158 @@
+.index-h1 {
+    font-family: 'Montserrat', 'sans-serif';
+    font-weight: 600;
+    padding-top: 10%;
+    padding-left: 10%;
+    color: #DA4167;
+}
+
+.staff-form {
+    padding: 10% 20% 0 20%;
+}
+.staff-col {
+    margin-left: -20px;
+    margin-right: -20px;
+}
+
+body {
+    overflow-x: hidden;
+    font-family: 'Montserrat', 'sans-serif';
+}
+
+#add-h1 {
+    font-family: 'Montserrat', 'sans-serif';
+    font-weight: 600;
+    color: #DA4167;
+}
+
+.form-width {
+    padding: 0 20% 0 20%;
+}
+
+@media (min-width:768px) {
+    .form-width {
+        padding: 0 30% 0 30%;
+    }
+    
+}
+
+.attendance {
+    margin-top: 5%;
+}
+
+.form-check-input[type = "checkbox"] {
+    width: 20px;
+    height: 20px;
+}
+
+.form-check-input:checked[type = "checkbox"] {
+    border-color: #8a1c7c;
+    background-color: #8a1c7c;
+    box-shadow: 0 0 0 0.1rem #8a1c7c;
+}
+.form-check-input:focus[type = "checkbox"] {
+    box-shadow: 0 0 0 0.1rem #8a1c7c;
+    border-color: #8a1c7c;
+}
+
+.table th {
+    color: #da4167;
+}
+
+.table td {
+    color: #899d78;
+    font-weight: 600;
+}
+
+h6 {
+    font-style: bold;
+    font-weight: 600;
+}
+
+.staff-label {
+    color: #8a1c7c;
+    font-weight: 800;
+}
+
+.form-div {
+    display: block;
+    margin: 10% 34% 0 34%;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-row {
+    margin-top: 3vh;
+}
+
+.staff-row {
+    width: 50%;
+}
+
+h5 {
+    color: #86b45d;
+    font-family: 'Montserrat', 'sans-serif';
+    font-weight: 500;
+    font-style: italic;
+}
+
+.roll-form {
+    margin-left: 10%;
+    margin-top: 4%;
+}
+
+.add-btn {
+    color: #8a1c7c;
+    background-color: transparent;
+    border-color: #8a1c7c;
+}
+
+.add-btn:hover {
+    background-color: #8a1c7c;
+    color: #fff;
+}
+
+h3 {
+    color: #8a1c7c;
+}
+
+.add-btn:focus {
+    box-shadow: 0 0 0 0.1rem #8a1c7c;
+    border-color: #8a1c7c;
+}
+
+.get-btn {
+    border-radius: 20px;
+    font-family: 'Montserrat', 'sans-serif';
+    font-weight: 500;
+}
+
+.roll-input {
+    border-radius: 20px;
+    border-color: #DA4167;
+}
+
+.add-input {
+    border-radius: 20px;
+    border-color: #8a1c7c;
+}
+
+.add-input::placeholder {
+    color: #8a1c7c;
+}
+
+.add-input:focus {
+    border-color: #8a1c7c;
+    box-shadow: 0 0 0 0.1rem #8a1c7c;
+}
+
+.roll-input::placeholder {
+    color: #DA4167;
+    font-family: 'Montserrat', 'sans-serif';
+    font-weight: 500;
+}
+
+.roll-input:focus {
+    border-color: #DA4167;
+    box-shadow: 0 0 0 0.1rem #DA4167;
+}

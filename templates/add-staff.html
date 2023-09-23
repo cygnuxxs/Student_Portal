@@ -1,0 +1,73 @@
+{% include 'header.html' %}
+<div class="container-sm">
+    <div class = "text-center grid gap-3">
+        <h1 class="mb-5 staff-form" style="color: #da4167; font-weight: 600;">Add Staff for Sections</h1>
+        {% if err %}
+        <h5 class="mb-4">{{ err }}</h5>
+        {% endif %}
+        <form action="" method = "POST" class="form-width">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h6>
+                    {{ form.hidden_tag() }}
+                    {{ form.day.label(class = "form-label staff-label") }}
+                    </h6>
+                </div>
+                <div class="col-sm-4 mb-4">
+                    {{ form.day(class = "form-control add-input") }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h6>
+                    {{ form.hour.label(class = "form-label staff-label") }}
+                    </h6>
+                </div>
+                <div class="col-sm-4 mb-4">
+                    {{ form.hour(class = "form-control add-input") }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h6>
+                    {{ form.subject.label(class = "form-label staff-label") }}
+                    </h6>
+                </div>
+                <div class="col-sm-4 mb-4">
+                    {{ form.subject(class = "form-control add-input") }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h6>
+                    {{ form.staff.label(class = "form-label staff-label") }}
+                    </h6>
+                </div>
+                <div class="col-sm-4 mb-4">
+                    {{ form.staff(class = "form-control add-input") }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h6>
+                    {{ form.section.label(class = "form-label staff-label") }}
+                    </h6>
+                </div>
+                <div class="col-sm-4 mb-4">
+                    {{ form.section(class = "form-control add-input") }}
+                </div>
+            </div>
+            <div class="row">
+                <div class = "col-sm-6">
+                    {{ form.submit(class = "btn add-btn", type = "submit", style = "border-radius:20px; width: 65%;") }}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+</div>
+</body>
+
+</html>

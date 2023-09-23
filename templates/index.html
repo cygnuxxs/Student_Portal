@@ -1,0 +1,25 @@
+{% include 'header.html' %}
+
+<div class="home-div">
+    <h1 class = "index-h1">Get Student Details</h1>
+    {% if err %}
+    <div class="row roll-form">
+        <h5>{{ err }}</h5>
+    </div>
+    {% endif %}
+    <form action="" method = "POST">
+        <div class="row">
+            <div class="col roll-form">
+                {{ form.hidden_tag() }}
+                {{ form.student_id(class = "form-control roll-input", placeholder = "Roll Number") }}
+            </div>
+            <div class="col" style="margin-top: 4%;">
+                {{ form.get_details(class = "btn btn-outline-success get-btn") }}
+            </div>
+        </div>
+    </form>
+
+</div>
+</body>
+
+</html>

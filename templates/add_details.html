@@ -1,0 +1,47 @@
+{% include 'header.html' %}
+
+<div class="container-sm text-center">
+    <h1 id="add-h1" class="mb-5 staff-form">Add Student Details</h1>
+
+    <form action="" method="POST" class="form-width">
+        {{ form.hidden_tag() }}
+        <div class="col">
+            <div class="row add-row">
+                {{ form.student_id(class = "form-control add-input", placeholder = "Student Roll Number") }}
+            </div>
+            <div class="row add-row">
+                {{ form.first_name(class = "form-control add-input", placeholder = "First Name") }}
+            </div>
+            <div class="row add-row">
+                {{ form.last_name(class = "form-control add-input", placeholder = "Last Name") }}
+            </div>
+            <div class="row add-row">
+                {{ form.dob(style = "color:#8a1c7c;", class = "form-control add-input", id = "datepicker", placeholder =
+                "Date of Birth") }}
+            </div>
+            <div class="row add-row">
+                {{ form.section(class = "form-control add-input", placeholder = "Section") }}
+            </div>
+            <div class="row add-row">
+                {{ form.add_details(class = "btn get-btn add-btn") }}
+            </div>
+            {% if err %}
+            <div class="row add-row mt-4">
+                <h5>{{ err }}</h5>
+            </div>
+            {% endif %}
+        </div>
+    </form>
+</div>
+<script>
+    $(function () {
+        $("#datepicker").datepicker({
+            format: "d-m-yyyy",
+            autoclose: true,
+            todayHighlight: true,
+        });
+    });
+</script>
+</body>
+
+</html>
