@@ -1,0 +1,24 @@
+{% include "header.html" %}
+
+<div class = "container-sm">
+<h1 class="add-h1 text-align-center" style="padding: 10%; color: #DA4167;">Login as Admin</h1>
+    <form action="" method = "POST">
+        <div class="col">
+            {% if err %}
+            <div class="add-row row">
+                <h1>{{ err }}</h1>
+            </div>
+            {% endif %}
+            <div class="add-row row">
+                {{ form.hidden_tag() }}
+                {{ form.username(class = "form-control", placeholder = "Username") }}
+            </div>
+            <div class="add-row row">
+                {{ form.password(class = "form-control", placeholder = "Password") }}
+            </div>
+            <div class="add-row row">
+                {{ form.submit(class = "btn btn-outline-success") }}
+            </div>
+        </div>
+    </form>
+</div>

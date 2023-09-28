@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired, Length
-from wtforms import StringField, SubmitField, DateField, SelectField, BooleanField, FieldList, FormField
+from wtforms import StringField, SubmitField, DateField, SelectField, BooleanField, FieldList, FormField, PasswordField
 
 sections_list = [("K1CSD", "K1CSD"),
                  ("K1CSM", "K1CSM"),
@@ -38,6 +38,11 @@ hours = [1,2,3,4]
 class GetStudentForm(FlaskForm):
     student_id = StringField("Student Roll Number", [DataRequired(), Length(min=10, max=10)])
     get_details = SubmitField("Get Details")
+
+class AdminForm(FlaskForm):
+    username = StringField("Username", [DataRequired()])
+    password = PasswordField("Password", [DataRequired()])
+    submit = SubmitField("Submit")
 
 class AddDetailsForm(FlaskForm):
     student_id = StringField("Student Roll Number", [DataRequired(), Length(min=10, max=10)])

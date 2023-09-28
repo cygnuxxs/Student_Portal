@@ -30,6 +30,13 @@
                 <h5>{{ err }}</h5>
             </div>
             {% endif %}
+            {% if logged_in %}
+            <div class="row add-row mt-4">
+                <a href="{{ url_for('logout') }}">
+                    <h5>Logout</h5>
+                </a>
+            </div>
+            {% endif %}
         </div>
     </form>
 </div>

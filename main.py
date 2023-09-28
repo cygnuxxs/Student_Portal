@@ -1,13 +1,36 @@
-from flask import Flask, render_template, url_for, redirect, request
+from flask import Flask, render_template, url_for, redirect, request, abort
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
+from werkzeug.security import generate_password_hash, check_password_hash
+from functools import wraps
+from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from forms import *
+
+def admin_only(f):
+    @wraps(f)
+    def df(*args, **kwargs):
+        if current_user.id != 1:
+            return abort(403)
+        return f(*args, **kwargs)
+    return df
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///students.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = "Cygnuxxs"
 db = SQLAlchemy(app)
+login_manager = LoginManager(app)
+
+@login_manager.user_loader
+def load_user(admin_id):
+    return Admin.query.get(int(admin_id))
+
+
+class Admin(UserMixin, db.Model):
+    __tablename__ = "admins"
+    id = db.Column(db.Integer, primary_key = True)
+    username = db.Column(db.String(20), unique = True, nullable = False)
+    password = db.Column(db.String(150), nullable = False)
 
 class Student(db.Model):
     __tablename__ = "students"
@@ -54,6 +77,30 @@ def home():
         
     return render_template('index.html', title = "Get Student Details", form = form, err = error)
 
+@app.route("/admin", methods = ["GET", "POST"])
+def admin():
+    form = AdminForm()
+    err = None
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        user = Admin.query.filter_by(username = username).first()
+        print(user)
+        if user:
+            if check_password_hash(user.password, form.password.data):
+                login_user(user)
+                return redirect(url_for("add_details"))
+            else:
+                err = "Password is incorrect."
+
+    return render_template("admin.html", form = form, err = err)
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("home"))
+
 @app.route('/student/<roll_num>')
 def get_details(roll_num):
     err = None
@@ -76,6 +123,8 @@ def get_details(roll_num):
     return render_template("student_details.html", staff = staff_dict, err = err, student = student, hours = hours)
 
 @app.route("/add-details", methods = ['GET', 'POST'])
+@login_required
+@admin_only
 def add_details():
     form = AddDetailsForm()
     err = None
@@ -101,7 +150,7 @@ def add_details():
             err = f"{student_id} Student Details added Successfully."
         else:
             err = "The entered student ID is already in the database."
-    return render_template('add_details.html',title = "Add Student Details", form = form, err = err)
+    return render_template('add_details.html',title = "Add Student Details", form = form, logged_in = current_user.is_authenticated, err = err)
 
 @app.route("/sections", methods = ["GET", "POST"])
 def section():
@@ -134,6 +183,8 @@ def section():
     return render_template("sections.html", err = err, aform = aform, form = form, title = "Section wise Attendance", data = data)
 
 @app.route("/add-staff", methods = ['GET', "POST"])
+@login_required
+@admin_only
 def staff():
     form = StaffForm()
     err = None
