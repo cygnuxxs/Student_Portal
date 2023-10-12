@@ -93,7 +93,7 @@ def admin():
             else:
                 err = "Password is incorrect."
 
-    return render_template("admin.html", form = form, err = err)
+    return render_template("admin.html", title = 'Admin', form = form, err = err)
 
 @app.route('/logout')
 @login_required
@@ -117,7 +117,7 @@ def edit(roll_no):
         data.section = form.section.data
         db.session.commit()
         err = "All Changes Saved Successfully."
-    return render_template("edit.html", err = err,
+    return render_template("edit.html", title = "Edit Details", err = err,
                            logged_in = current_user.is_authenticated, 
                            data = data, form = form)
 
@@ -140,7 +140,7 @@ def get_details(roll_num):
     for i in staff:
         if i.subject not in staff_dict:
             staff_dict[i.subject] = i.staff
-    return render_template("student_details.html", staff = staff_dict, err = err, student = student, hours = hours)
+    return render_template("student_details.html",title = f"{roll_num} Details", staff = staff_dict, err = err, student = student, hours = hours)
 
 @app.route("/add-details", methods = ['GET', 'POST'])
 @login_required
@@ -177,7 +177,7 @@ def sections():
     form = SectionForm()
     if form.validate_on_submit():
         data = Student.query.filter_by(section = form.sections.data).order_by(Student.student_id).all()
-    return render_template("sections.html", form = form, data = data, logged_in = current_user.is_authenticated)
+    return render_template("sections.html",title = "Sections", form = form, data = data, logged_in = current_user.is_authenticated)
 
 @app.route('/delete/<roll_no>', methods = ["GET", "POST"])
 @login_required
@@ -214,7 +214,7 @@ def staff():
         except IntegrityError:
             db.session.rollback()
             err = "Entry is already in the database."
-    return render_template("add-staff.html", form = form, err = err)
+    return render_template("add-staff.html",title = "Add Staff", form = form, err = err)
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8000, debug=True)
