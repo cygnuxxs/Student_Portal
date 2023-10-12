@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, request, abort
+from flask import Flask, Response, render_template, url_for, redirect, request, abort
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -101,6 +101,26 @@ def logout():
     logout_user()
     return redirect(url_for("home"))
 
+@app.route("/edit/<roll_no>", methods = ["GET","POST"])
+@login_required
+@admin_only
+def edit(roll_no):
+    data = Student.query.filter_by(student_id = roll_no.upper()).first()
+    form = AddDetailsForm()
+    err = None
+    if not data:
+        err = f"{roll_no.upper()} is not found in the database."
+    if request.method == "POST":
+        data.first_name = form.first_name.data
+        data.last_name = form.last_name.data
+        data.date_of_birth = form.dob.data
+        data.section = form.section.data
+        db.session.commit()
+        err = "All Changes Saved Successfully."
+    return render_template("edit.html", err = err,
+                           logged_in = current_user.is_authenticated, 
+                           data = data, form = form)
+
 @app.route('/student/<roll_num>')
 def get_details(roll_num):
     err = None
@@ -130,7 +150,6 @@ def add_details():
     err = None
     if form.validate_on_submit():
         student_id = form.student_id.data.upper()
-        print(type(student_id))
         student = Student.query.filter_by(student_id = student_id).first()
         if student is None:
             first_name = form.first_name.data
@@ -153,34 +172,21 @@ def add_details():
     return render_template('add_details.html',title = "Add Student Details", form = form, logged_in = current_user.is_authenticated, err = err)
 
 @app.route("/sections", methods = ["GET", "POST"])
-def section():
-    err = None
+def sections():
     data = None
-    aform = None
     form = SectionForm()
     if form.validate_on_submit():
-        section = form.sections.data
-        data = Student.query.filter_by(section = section).order_by(Student.student_id).all()
-        for student in data:
-            setattr(AttendanceForm, f"{student.student_id}", BooleanField("Present"))
-        aform = AttendanceForm()
-        if aform.validate_on_submit():
-            for field in aform:
-                if field.name != "submit" and field.name != "csrf_token" and field.name != "confirm":
-                    new_entry = Attendance(
-                        student_id = field.name,
-                        date = form.date.data,
-                        status = "Present" if field.data else "Absent",
-                        section = form.sections.data
-                    )
-                    try:
-                        db.session.add(new_entry)
-                        db.session.commit()
-                        err = "Attendance Posted Successfully."
-                    except IntegrityError:
-                        db.session.rollback()
-                        err = "Attendance already taken for this section."
-    return render_template("sections.html", err = err, aform = aform, form = form, title = "Section wise Attendance", data = data)
+        data = Student.query.filter_by(section = form.sections.data).order_by(Student.student_id).all()
+    return render_template("sections.html", form = form, data = data, logged_in = current_user.is_authenticated)
+
+@app.route('/delete/<roll_no>', methods = ["GET", "POST"])
+@login_required
+@admin_only
+def delete(roll_no):
+    student = Student.query.filter_by(student_id = roll_no).first()
+    db.session.delete(student)
+    db.session.commit()
+    return redirect(url_for('sections'))
 
 @app.route("/add-staff", methods = ['GET', "POST"])
 @login_required

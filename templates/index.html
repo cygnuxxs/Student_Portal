@@ -1,13 +1,13 @@
 {% include 'header.html' %}
 
-<div class="home-div">
-    <h1 class = "index-h1">Get Student Details</h1>
+<div class="home-div container-sm">
+    <h1 class="index-h1">Get Student Details</h1>
     {% if err %}
     <div class="row roll-form">
         <h5>{{ err }}</h5>
     </div>
     {% endif %}
-    <form action="" method = "POST">
+    <form action="" method="POST">
         <div class="row">
             <div class="col roll-form">
                 {{ form.hidden_tag() }}
@@ -18,7 +18,10 @@
             </div>
         </div>
     </form>
-
+    <div class="row roll-form" style="padding-top: 25%;">
+        <a class="col" href="{{url_for('sections')}}" style="color: #da4167;">Get Section Wise Data</a>
+        <a class="col" href="{{url_for('admin')}}" style="color: rgb(132, 204, 39);">Login as Admin</a>
+    </div>
 </div>
 </body>
 

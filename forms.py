@@ -54,7 +54,6 @@ class AddDetailsForm(FlaskForm):
 
 class SectionForm(FlaskForm):
     sections = SelectField("Sections", choices=sections_list, validators=[DataRequired()])
-    date = DateField("Date of Attendance", format = "%d-%m-%Y", validators=[DataRequired()], render_kw = {"type":"text"})
     submit = SubmitField("Submit")
 
 class StaffForm(FlaskForm):
@@ -64,10 +63,6 @@ class StaffForm(FlaskForm):
     staff = SelectField("Faculty Name", validators=[DataRequired()], choices=staff_list)
     section = SelectField("Section", choices=sections_list, validators=[DataRequired()])
     submit = SubmitField("Submit")
-
-class AttendanceForm(FlaskForm):
-    confirm = BooleanField("Confirm", [DataRequired()])
-    submit = SubmitField("Post Attendance")
     
 
 
